@@ -23,14 +23,69 @@ class Pipe {
     }
     
     draw(renderer) {
+        const ctx = renderer.ctx;
+        
         // Top pipe
         if (this.topHeight > 0) {
-            renderer.drawRect(this.x, 0, this.width, this.topHeight, this.color);
+            this.drawPipe(ctx, this.x, 0, this.width, this.topHeight, true);
         }
         
-        // Bottom pipe
+        // Bottom pipe  
         if (this.bottomHeight > 0) {
-            renderer.drawRect(this.x, this.bottomY, this.width, this.bottomHeight, this.color);
+            this.drawPipe(ctx, this.x, this.bottomY, this.width, this.bottomHeight, false);
+        }
+    }
+    
+    drawPipe(ctx, x, y, width, height, isTop) {
+        // Main pipe body
+        const gradient = ctx.createLinearGradient(x, 0, x + width, 0);
+        gradient.addColorStop(0, '#2E8B57');
+        gradient.addColorStop(0.3, '#228B22');
+        gradient.addColorStop(0.7, '#228B22');
+        gradient.addColorStop(1, '#006400');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, y, width, height);
+        
+        // Pipe cap (wider top/bottom)
+        const capHeight = 20;
+        const capWidth = width + 8;
+        const capX = x - 4;
+        
+        let capY;
+        if (isTop) {
+            capY = y + height - capHeight;
+        } else {
+            capY = y;
+        }
+        
+        // Cap gradient
+        const capGradient = ctx.createLinearGradient(capX, 0, capX + capWidth, 0);
+        capGradient.addColorStop(0, '#32CD32');
+        capGradient.addColorStop(0.5, '#228B22');
+        capGradient.addColorStop(1, '#006400');
+        
+        ctx.fillStyle = capGradient;
+        ctx.fillRect(capX, capY, capWidth, capHeight);
+        
+        // Highlight on left side
+        ctx.fillStyle = 'rgba(144, 238, 144, 0.5)';
+        ctx.fillRect(x, y, 3, height);
+        ctx.fillRect(capX, capY, 3, capHeight);
+        
+        // Shadow on right side
+        ctx.fillStyle = 'rgba(0, 100, 0, 0.3)';
+        ctx.fillRect(x + width - 3, y, 3, height);
+        ctx.fillRect(capX + capWidth - 3, capY, 3, capHeight);
+        
+        // Decorative stripes
+        ctx.strokeStyle = '#006400';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < height; i += 15) {
+            ctx.beginPath();
+            ctx.moveTo(x, y + i);
+            ctx.lineTo(x + width, y + i);
+            ctx.stroke();
         }
     }
     
