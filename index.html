@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Clone</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #70c5ce;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid #000;
+            background-color: #87CEEB;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    
+    <script src="src/utils/Config.js"></script>
+    <script src="src/core/Canvas.js"></script>
+    <script src="src/core/InputHandler.js"></script>
+    <script src="src/entities/Bird.js"></script>
+    <script src="src/entities/Pipe.js"></script>
+    <script src="src/entities/Background.js"></script>
+    <script src="src/systems/Physics.js"></script>
+    <script src="src/systems/ScoreManager.js"></script>
+    <script src="src/core/Game.js"></script>
+    
+    <script>
+        const game = new Game();
+        game.start();
+    </script>
+</body>
+</html>
